@@ -178,26 +178,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   return getChatListItem(_chatList[index]);
                 },
               )
-//              new StreamBuilder(
-//                stream: _chatsStreamController.stream,
-//                builder: (BuildContext context, snapshot) {
-//                  switch (snapshot.connectionState) {
-//                    case ConnectionState.none:
-//                    case ConnectionState.waiting:
-//                      return Text('Loading...');
-//                    case ConnectionState.active:
-//                    case ConnectionState.done:
-//                      if (snapshot.hasError) {
-//                        return Text('Fetch Data Error');
-//                      } else {
-//                        return new ListTile(
-//                          title: Text(snapshot.data.message),
-//                          subtitle: Text(snapshot.data.message),
-//                        );
-//                      }
-//                  }
-//                },
-//              )
             ],
           ),
         ),
