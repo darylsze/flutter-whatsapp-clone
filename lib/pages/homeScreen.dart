@@ -3,39 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:whatsapp_clone/fixtures/fakeUserList.dart';
+import 'package:whatsapp_clone/pages/chatScreen.dart';
 
-import 'fixtures/fakeChatList.dart';
-import 'model/Chat.dart';
-import 'model/MessageState.dart';
-import 'model/User.dart';
-import 'widgets/HorizontalLine.dart';
-import 'widgets/LeftRightRow.dart';
+import '../fixtures/fakeChatList.dart';
+import '../model/Chat.dart';
+import '../model/MessageState.dart';
+import '../model/User.dart';
+import '../widgets/HorizontalLine.dart';
+import '../widgets/LeftRightRow.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primaryColor: Colors.white,
-        indicatorColor: Colors.white,
-        primaryIconTheme: IconThemeData(
-          color: Colors.white,
-        ),
-        textTheme: TextTheme(
-          title: TextStyle(color: Colors.white),
-        ),
-      ),
-      home: MyHomePage(title: 'WhatsApp Home'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  HomeScreen({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -49,10 +27,10 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   StreamController<Chat> _chatsStreamController = new StreamController();
   List<Chat> _chatList = [];
   List<User> userList = [];
@@ -131,99 +109,107 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ),
+        Column(children: <Widget>[
+          SizedBox(height: 20),
+          new HorizontalLine(),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: LeftRightRow(
+              left: new InkWell(
+                child: new Text('Broadcast Lists',
+                    style: TextStyle(color: Colors.blue[600], fontSize: 18.0)),
+                onTap: () => {},
+              ),
+              right: new InkWell(
+                child: new Text('New Group',
+                    style: TextStyle(color: Colors.blue[600], fontSize: 18.0)),
+                onTap: () => {},
+              ),
+            ),
+          ),
+          new HorizontalLine(),
+        ])
       ],
     );
 
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(150),
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-              child: _appBarContent,
-            ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(218),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+            child: _appBarContent,
           ),
         ),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 20),
-              new HorizontalLine(),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: LeftRightRow(
-                  left: new InkWell(
-                    child: new Text('Broadcast Lists',
-                        style:
-                            TextStyle(color: Colors.blue[600], fontSize: 18.0)),
-                    onTap: () => {},
-                  ),
-                  right: new InkWell(
-                    child: new Text('New Group',
-                        style:
-                            TextStyle(color: Colors.blue[600], fontSize: 18.0)),
-                    onTap: () => {},
-                  ),
+      ),
+      body: Center(
+          child: new ListView.separated(
+        separatorBuilder: (BuildContext context, int index) => Divider(),
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        itemCount: _chatList.length,
+        itemBuilder: (context, index) {
+          if (index >= _chatList.length) {
+            return null;
+          }
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      ChatScreen(user: _chatList[index].toUser),
                 ),
-              ),
-              new HorizontalLine(),
-              new ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: _chatList.length,
-                itemBuilder: (context, index) {
-                  if (index >= _chatList.length) {
-                    return null;
-                  }
-                  return getChatListItem(_chatList[index]);
-                },
-              )
-            ],
-          ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          showUnselectedLabels: true,
-          unselectedItemColor: Colors.grey,
-          selectedItemColor: Colors.blue[700],
-          onTap: (int index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.filter_tilt_shift),
-                title: Title(
-                  color: Colors.grey,
-                  child: Text('Status'),
-                )),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.phone),
-                title: Title(
-                  color: Colors.grey,
-                  child: Text('Calls'),
-                )),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.camera_alt),
-                title: Title(
-                  color: Colors.grey,
-                  child: Text('Camera'),
-                )),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.chat_bubble),
-                title: Title(
-                  color: Colors.grey,
-                  child: Text('Chats'),
-                )),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                title: Title(
-                  color: Colors.grey,
-                  child: Text('Settings'),
-                )),
-          ],
-        ));
+              );
+            },
+            child: getChatListItem(_chatList[index]),
+          );
+        },
+      )),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        showUnselectedLabels: true,
+        unselectedItemColor: Colors.grey,
+        selectedItemColor: Colors.blue[700],
+        onTap: (int index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.filter_tilt_shift),
+              title: Title(
+                color: Colors.grey,
+                child: Text('Status'),
+              )),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.phone),
+              title: Title(
+                color: Colors.grey,
+                child: Text('Calls'),
+              )),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.camera_alt),
+              title: Title(
+                color: Colors.grey,
+                child: Text('Camera'),
+              )),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.chat_bubble),
+              title: Title(
+                color: Colors.grey,
+                child: Text('Chats'),
+              )),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              title: Title(
+                color: Colors.grey,
+                child: Text('Settings'),
+              )),
+        ],
+      ),
+    );
   }
 
   Widget getChatListItem(Chat chat) {
