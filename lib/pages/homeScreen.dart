@@ -158,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      ChatScreen(user: _chatList[index].toUser),
+                      ChatScreen(userId: _chatList[index].toUser),
                 ),
               );
             },

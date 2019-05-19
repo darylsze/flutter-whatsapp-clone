@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum MessageState { READ, SENDING, RECEIVING, RECEIVED }
+enum MessageState { READ, SENDING, RECEIVING, RECEIVED, NONE }
 
 Widget Function(MessageState state) getMessageState = (MessageState state) {
   switch (state) {
@@ -13,6 +13,8 @@ Widget Function(MessageState state) getMessageState = (MessageState state) {
     case MessageState.RECEIVING:
       final color = Colors.grey;
       return Text('✓', style: TextStyle(color: color, fontSize: 18));
+    case MessageState.NONE:
+      return Text('');
     case MessageState.SENDING:
     default:
       final color = Colors.grey[400];

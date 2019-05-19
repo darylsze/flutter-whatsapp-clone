@@ -1,5 +1,12 @@
 class Chat {
-  final message, fromUser, toUser, createdAt, updatedAt, messageState;
+  final message,
+      fromUser,
+      toUser,
+      createdAt,
+      updatedAt,
+      messageState,
+      replyFrom,
+      uuid;
 
   Chat({
     this.toUser,
@@ -8,5 +15,7 @@ class Chat {
     this.createdAt,
     this.updatedAt,
     this.messageState,
+    this.replyFrom,
+    this.uuid,
   });
 }
