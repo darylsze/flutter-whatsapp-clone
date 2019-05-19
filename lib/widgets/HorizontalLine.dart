@@ -12,7 +12,7 @@ class HorizontalLine extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: 1,
       child: DecoratedBox(
-        decoration: BoxDecoration(color: Colors.grey[300]),
+        decoration: BoxDecoration(color: Colors.grey[400]),
       ),
     );
   }
