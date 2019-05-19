@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'widgets/LeftRightRow.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -10,10 +12,15 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: Colors.white,
-        accentColor: Color.fromRGBO(220, 249, 194, 1.0),
-        primarySwatch: Colors.blue,
+        indicatorColor: Colors.white,
+        primaryIconTheme: IconThemeData(
+          color: Colors.white,
+        ),
+        textTheme: TextTheme(
+          title: TextStyle(color: Colors.white),
+        ),
       ),
-      home: MyHomePage(title: 'Whatsapp Home'),
+      home: MyHomePage(title: 'WhatsApp Home'),
     );
   }
 }
@@ -52,6 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    int _currentIndex = 0;
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -59,46 +67,108 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(300),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+              child: Column(
+                children: <Widget>[
+                  LeftRightRow(
+                    left: Text('Edit',
+                        style:
+                            TextStyle(fontSize: 18, color: Colors.blue[800])),
+                    right: Icon(Icons.edit),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Chats",
+                      style: TextStyle(
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: new TextField(
+                      textAlign: TextAlign.left,
+                      decoration: new InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.search,
+                          size: 26.0,
+                          color: Colors.grey,
+                        ),
+                        fillColor: Colors.grey[200],
+                        filled: true,
+                        hintText: 'Search',
+                        hintStyle: TextStyle(fontSize: 18),
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        body: Center(
+          // Center is a layout widget. It takes a single child and positions it
+          // in the middle of the parent.
+          child: Column(),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          showUnselectedLabels: true,
+          unselectedItemColor: Colors.grey,
+          selectedItemColor: Colors.blue[700],
+          onTap: (int index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.filter_tilt_shift),
+                title: Title(
+                  color: Colors.grey,
+                  child: Text('Status'),
+                )),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.phone),
+                title: Title(
+                  color: Colors.grey,
+                  child: Text('Calls'),
+                )),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.camera_alt),
+                title: Title(
+                  color: Colors.grey,
+                  child: Text('Camera'),
+                )),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.chat_bubble),
+                title: Title(
+                  color: Colors.grey,
+                  child: Text('Chats'),
+                )),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                title: Title(
+                  color: Colors.grey,
+                  child: Text('Settings'),
+                )),
+          ],
+        ));
   }
 }
