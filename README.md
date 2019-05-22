@@ -1,6 +1,8 @@
 # whatsapp_clone
 
-A whatsappp clone with flutter
+Aims to clone WhatsApp from user interface to real implementation (DB, message transfer protocol, image transmission technique, image compression, etc). It's far from finish, now focus on just UI part only. 
+
+Flutter is quite fun.
 
 ## Getting Started
 
