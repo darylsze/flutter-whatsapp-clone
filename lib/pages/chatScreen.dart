@@ -5,6 +5,12 @@ import 'package:whatsapp_clone/fixtures/fakeUserList.dart';
 import 'package:whatsapp_clone/model/Chat.dart';
 import 'package:whatsapp_clone/model/User.dart';
 
+// TODO:
+// 1. voice message UI
+// 2. voice message listenable
+// 3. quote for message
+// 4. bottom input bar
+// 5. background image / color
 class ChatScreen extends StatefulWidget {
   final userId;
 
@@ -91,7 +97,8 @@ class _ChatScreenState extends State<ChatScreen>
             // delete
             if (index == 1) {
               return Bubble(
-                message: 'Hi there, this is a message',
+                message:
+                    'Hi there, this is a message, Hi there, this is a message',
                 time: '12:00',
                 delivered: true,
                 isMe: false,
@@ -126,7 +133,7 @@ class Bubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bg = isMe ? Colors.white : Color.fromRGBO(220, 248, 198, 1);
+    final bg = isMe ? Colors.white : Color.fromARGB(255, 225, 255, 198);
     final align = isMe ? CrossAxisAlignment.start : CrossAxisAlignment.end;
     final icon = delivered ? Icons.done_all : Icons.done;
     final radius = isMe
@@ -149,18 +156,22 @@ class Bubble extends StatelessWidget {
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                  blurRadius: .5,
+                  blurRadius: .3,
                   spreadRadius: 1.0,
-                  color: Colors.black.withOpacity(.08))
+                  color: Colors.black.withOpacity(.05))
             ],
             color: bg,
             borderRadius: radius,
           ),
           child: Stack(
             children: <Widget>[
+              // FIXME: use row with max with
               Padding(
-                padding: EdgeInsets.only(right: 48.0),
-                child: Text(message),
+                padding: EdgeInsets.only(right: 60.0),
+                child: Text(
+                  message,
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
               Positioned(
                 bottom: 0.0,
@@ -170,7 +181,7 @@ class Bubble extends StatelessWidget {
                     Text(time,
                         style: TextStyle(
                           color: Colors.black38,
-                          fontSize: 10.0,
+                          fontSize: 12.0,
                         )),
                     SizedBox(width: 3.0),
                     Icon(

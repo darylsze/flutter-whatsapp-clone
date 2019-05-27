@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:whatsapp_clone/fixtures/fakeUserList.dart';
 import 'package:whatsapp_clone/pages/chatScreen.dart';
+import 'package:whatsapp_clone/pages/settingScreen.dart';
 
 import '../fixtures/fakeChatList.dart';
 import '../model/Chat.dart';
@@ -34,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   StreamController<Chat> _chatsStreamController = new StreamController();
   List<Chat> _chatList = [];
   List<User> userList = [];
+  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -58,91 +60,21 @@ class _HomeScreenState extends State<HomeScreen> {
     _chatsStreamController.close();
   }
 
+  Widget getHeader(index) {
+    final headerComponents = [
+      getHomePageHeader(),
+      Center(),
+      Center(),
+      Center(),
+      Center(),
+    ];
+    return headerComponents[index];
+  }
+
   @override
   Widget build(BuildContext context) {
-    int _currentIndex = 0;
-
-    final _appBarContentKey = GlobalKey();
-
-    final _appBarContent = Column(
-      key: _appBarContentKey,
-      children: <Widget>[
-        LeftRightRow(
-          left: Text('Edit',
-              style: TextStyle(fontSize: 18, color: Colors.blue[800])),
-          right: Icon(Icons.edit),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            "Chats",
-            style: TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 5.0),
-          child: new TextField(
-            textAlign: TextAlign.left,
-            decoration: new InputDecoration(
-              prefixIcon: Icon(
-                Icons.search,
-                size: 26.0,
-                color: Colors.grey,
-              ),
-              fillColor: Colors.grey[200],
-              filled: true,
-              hintText: 'Search',
-              hintStyle: TextStyle(fontSize: 18),
-              border: UnderlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-            ),
-          ),
-        ),
-        Column(children: <Widget>[
-          SizedBox(height: 20),
-          new HorizontalLine(),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: LeftRightRow(
-              left: new InkWell(
-                child: new Text('Broadcast Lists',
-                    style: TextStyle(color: Colors.blue[600], fontSize: 18.0)),
-                onTap: () => {},
-              ),
-              right: new InkWell(
-                child: new Text('New Group',
-                    style: TextStyle(color: Colors.blue[600], fontSize: 18.0)),
-                onTap: () => {},
-              ),
-            ),
-          ),
-          new HorizontalLine(),
-        ])
-      ],
-    );
-
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(218),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-            child: _appBarContent,
-          ),
-        ),
-      ),
-      body: Center(
+    List<Widget> _screens = [
+      Center(
           child: new ListView.separated(
         separatorBuilder: (BuildContext context, int index) => Divider(),
         shrinkWrap: true,
@@ -166,6 +98,25 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       )),
+      Center(),
+      Center(),
+      Center(),
+      SettingScreen(),
+    ];
+
+    final _appBarContent = getHeader(_currentIndex);
+
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(218),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+            child: _appBarContent,
+          ),
+        ),
+      ),
+      body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         showUnselectedLabels: true,
@@ -265,5 +216,72 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Colors.grey[400],
       ),
     );
+  }
+
+  Widget getHomePageHeader() {
+    return Column(children: <Widget>[
+      LeftRightRow(
+        left: Text('Edit',
+            style: TextStyle(fontSize: 18, color: Colors.blue[800])),
+        right: Icon(Icons.edit),
+      ),
+      SizedBox(
+        height: 20,
+      ),
+      Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          "Chats",
+          style: TextStyle(
+            fontSize: 35,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      SizedBox(
+        height: 10,
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 5.0),
+        child: new TextField(
+          textAlign: TextAlign.left,
+          decoration: new InputDecoration(
+            prefixIcon: Icon(
+              Icons.search,
+              size: 26.0,
+              color: Colors.grey,
+            ),
+            fillColor: Colors.grey[200],
+            filled: true,
+            hintText: 'Search',
+            hintStyle: TextStyle(fontSize: 18),
+            border: UnderlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
+        ),
+      ),
+      Column(children: <Widget>[
+        SizedBox(height: 20),
+        new HorizontalLine(),
+        Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: LeftRightRow(
+            left: new InkWell(
+              child: new Text('Broadcast Lists',
+                  style: TextStyle(color: Colors.blue[600], fontSize: 18.0)),
+              onTap: () => {},
+            ),
+            right: new InkWell(
+              child: new Text('New Group',
+                  style: TextStyle(color: Colors.blue[600], fontSize: 18.0)),
+              onTap: () => {},
+            ),
+          ),
+        ),
+        new HorizontalLine(),
+      ])
+    ]);
   }
 }

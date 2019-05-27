@@ -13,12 +13,16 @@ class LeftRightRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final childs = [left, right]..removeWhere((widget) => widget == null);
+    if (left == null || right == null) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: childs,
+      );
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        left,
-        right,
-      ],
+      children: childs,
     );
   }
 }
