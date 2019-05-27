@@ -23,28 +23,31 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
-  List<Widget> _screens = [
-    ChatListScreen(),
-    Center(),
-    Center(),
-    Center(),
-    SettingScreen(),
-  ];
+  List<Widget> _screens = [];
+  List<Widget> _headers = [];
 
-  Widget getHeader(index) {
-    final headerComponents = [
-      ChatListScreen.getHeader(),
-      Center(),
-      Center(),
-      Center(),
-      Center(),
-    ];
-    return headerComponents[index];
+  @override
+  void initState() {
+    _screens.addAll(
+      [ChatListScreen(), Center(), Center(), Center(), SettingScreen()],
+    );
+    _headers.addAll(
+      [
+        ChatListScreen.getHeader(),
+        Center(),
+        Center(),
+        Center(),
+        Center(),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final _appBarContent = getHeader(_currentIndex);
+    final _appBarContent = IndexedStack(
+      index: _currentIndex,
+      children: _headers,
+    );
 
     return Scaffold(
       appBar: PreferredSize(
@@ -56,7 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: _screens[_currentIndex],
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _screens,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         showUnselectedLabels: true,
