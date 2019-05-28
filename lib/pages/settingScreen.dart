@@ -63,6 +63,11 @@ class _SettingScreenState extends State<SettingScreen> {
         GroupedListItem(iconHref: '', title: 'Notifcations'),
         GroupedListItem(iconHref: '', title: 'Date and Storage Usage'),
       ]),
+      new Empty(),
+      new GroupedList(items: [
+        GroupedListItem(iconHref: '', title: 'Help'),
+        GroupedListItem(iconHref: '', title: 'Tell a Friend'),
+      ]),
     ]);
   }
 
@@ -151,17 +156,38 @@ class _SettingScreenState extends State<SettingScreen> {
           ),
           Expanded(
             flex: 2,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Daryl SZE',
-                  textAlign: TextAlign.start,
-                ),
-                Text('Do not afraid to try'),
-              ],
+            child: Container(
+              height: 80,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Daryl SZE',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text('Do not afraid to try'),
+                  ),
+                ],
+              ),
             ),
-          )
+          ),
+          Container(
+            margin: EdgeInsets.all(10),
+            child: Icon(
+              Icons.arrow_forward_ios,
+              size: 20,
+              color: Colors.grey[350],
+            ),
+          ),
         ],
       ),
     );
@@ -179,17 +205,18 @@ class _SettingScreenState extends State<SettingScreen> {
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(
-                item.title,
-                style: TextStyle(fontSize: 16),
-              ),
+            child: Text(
+              item.title,
+              style: TextStyle(fontSize: 16),
             ),
           ),
           Container(
             margin: EdgeInsets.all(10),
-            child: Icon(Icons.arrow_forward_ios),
+            child: Icon(
+              Icons.arrow_forward_ios,
+              size: 20,
+              color: Colors.grey[350],
+            ),
           ),
         ],
       ),
@@ -200,7 +227,7 @@ class _SettingScreenState extends State<SettingScreen> {
         Align(
           alignment: Alignment.bottomRight,
           child: Container(
-              width: MediaQuery.of(context).size.width - 70,
+              width: MediaQuery.of(context).size.width - 60,
               child: HorizontalLine()),
         ),
       );
