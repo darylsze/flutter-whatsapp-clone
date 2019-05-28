@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone/fixtures/fakeUserList.dart';
+import 'package:whatsapp_clone/widgets/HorizontalLine.dart';
 import 'package:whatsapp_clone/widgets/LeftRightRow.dart';
 import 'package:whatsapp_clone/widgets/SafeHeader.dart';
 
@@ -119,32 +120,14 @@ class _SettingScreenState extends State<SettingScreen> {
   }
 
   List<Widget> _renderSettingGroup(List<GroupedListItem> items) {
-    return items.map((item) {
-      return Row(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.all(10),
-            child: Icon(
-              Icons.star,
-              size: 24,
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(
-                item.title,
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.all(10),
-            child: Icon(Icons.arrow_forward_ios),
-          )
-        ],
-      );
-    }).toList();
+    return items
+        .asMap()
+        .map((index, item) {
+          final isLast = index == items.length - 1;
+          return MapEntry(index, _renderSettingGroupItem(item, isLast));
+        })
+        .values
+        .toList();
   }
 
   Widget _renderProfile(Profile item) {
@@ -166,11 +149,53 @@ class _SettingScreenState extends State<SettingScreen> {
                 'Daryl SZE',
                 textAlign: TextAlign.start,
               ),
-              Text('Do not fail to try'),
+              Text('Do not afraid to try'),
             ],
           ),
         )
       ],
     );
+  }
+
+  Widget _renderSettingGroupItem(GroupedListItem item, bool isLast) {
+    final components = <Widget>[
+      Row(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
+            child: Icon(
+              Icons.star,
+              size: 30,
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                item.title,
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(10),
+            child: Icon(Icons.arrow_forward_ios),
+          ),
+        ],
+      ),
+    ];
+
+    if (!isLast) {
+      components.add(
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Container(
+              width: MediaQuery.of(context).size.width - 70,
+              child: HorizontalLine()),
+        ),
+      );
+    }
+
+    return Column(children: components);
   }
 }
