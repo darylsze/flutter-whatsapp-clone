@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:whatsapp_clone/fixtures/fakeUserList.dart';
 import 'package:whatsapp_clone/pages/chatScreen.dart';
+import 'package:whatsapp_clone/widgets/SafeHeader.dart';
 
 import '../fixtures/fakeChatList.dart';
 import '../model/Chat.dart';
@@ -14,15 +15,6 @@ import '../widgets/LeftRightRow.dart';
 
 class ChatListScreen extends StatefulWidget {
   ChatListScreen({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -127,30 +119,103 @@ class _ChatListScreenState extends State<ChatListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: new ListView.separated(
-      separatorBuilder: (BuildContext context, int index) => Divider(),
-      shrinkWrap: true,
-      scrollDirection: Axis.vertical,
-      itemCount: _chatList.length,
-      itemBuilder: (context, index) {
-        if (index >= _chatList.length) {
-          return null;
-        }
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    ChatScreen(userId: _chatList[index].toUser),
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(218),
+        child: SafeHeader(
+          child: Column(children: <Widget>[
+            LeftRightRow(
+              left: Text('Edit',
+                  style: TextStyle(fontSize: 18, color: Colors.blue[800])),
+              right: Icon(Icons.edit),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Chats",
+                style: TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            );
-          },
-          child: getChatListItem(_chatList[index]),
-        );
-      },
-    ));
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: new TextField(
+                textAlign: TextAlign.left,
+                decoration: new InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.search,
+                    size: 26.0,
+                    color: Colors.grey,
+                  ),
+                  fillColor: Colors.grey[200],
+                  filled: true,
+                  hintText: 'Search',
+                  hintStyle: TextStyle(fontSize: 18),
+                  border: UnderlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+            ),
+            Column(children: <Widget>[
+              SizedBox(height: 20),
+              new HorizontalLine(),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: LeftRightRow(
+                  left: new InkWell(
+                    child: new Text('Broadcast Lists',
+                        style:
+                            TextStyle(color: Colors.blue[600], fontSize: 18.0)),
+                    onTap: () => {},
+                  ),
+                  right: new InkWell(
+                    child: new Text('New Group',
+                        style:
+                            TextStyle(color: Colors.blue[600], fontSize: 18.0)),
+                    onTap: () => {},
+                  ),
+                ),
+              ),
+              new HorizontalLine(),
+            ])
+          ]),
+        ),
+      ),
+      body: Center(
+          child: new ListView.separated(
+        separatorBuilder: (BuildContext context, int index) => Divider(),
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        itemCount: _chatList.length,
+        itemBuilder: (context, index) {
+          if (index >= _chatList.length) {
+            return null;
+          }
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      ChatScreen(userId: _chatList[index].toUser),
+                ),
+              );
+            },
+            child: getChatListItem(_chatList[index]),
+          );
+        },
+      )),
+    );
   }
 
   Widget getChatListItem(Chat chat) {

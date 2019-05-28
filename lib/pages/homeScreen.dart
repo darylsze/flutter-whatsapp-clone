@@ -31,34 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
     _screens.addAll(
       [ChatListScreen(), Center(), Center(), Center(), SettingScreen()],
     );
-    _headers.addAll(
-      [
-        ChatListScreen.getHeader(),
-        Center(),
-        Center(),
-        Center(),
-        Center(),
-      ],
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final _appBarContent = IndexedStack(
-      index: _currentIndex,
-      children: _headers,
-    );
-
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(218),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-            child: _appBarContent,
-          ),
-        ),
-      ),
       body: IndexedStack(
         index: _currentIndex,
         children: _screens,

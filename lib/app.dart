@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:whatsapp_clone/pages/homeScreen.dart';
 import 'package:whatsapp_clone/routes.dart';
 
-void main() => runApp(MyApp());
+void main() {
+//  debugPaintSizeEnabled = true;
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   final result =
