@@ -93,28 +93,35 @@ class _SettingScreenState extends State<SettingScreen> {
           ]),
         ),
       ),
-      body: ListView.builder(
-        itemCount: rows.length,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          final item = rows[index];
-          switch (item.runtimeType) {
-            case Profile:
-              return _renderProfile(item);
-            case Empty:
-              return new Container(
-                height: 35.0,
-                color: Color.fromRGBO(239, 239, 244, 1),
-              );
-            case GroupedList:
-              final list = (item as GroupedList).items;
-              return Column(
-                children: _renderSettingGroup(list),
-              );
-            default:
-              throw new Exception("not implemented");
-          }
-        },
+      body: Container(
+        decoration: new BoxDecoration(color: Color.fromRGBO(239, 239, 244, 1)),
+        height: MediaQuery.of(context).size.height,
+        child: ListView.builder(
+          itemCount: rows.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            final item = rows[index];
+            switch (item.runtimeType) {
+              case Profile:
+                return _renderProfile(item);
+              case Empty:
+                return new Container(
+                  height: 35.0,
+                  color: Color.fromRGBO(239, 239, 244, 1),
+                );
+              case GroupedList:
+                final list = (item as GroupedList).items;
+                return Container(
+                  decoration: new BoxDecoration(color: Colors.white),
+                  child: Column(
+                    children: _renderSettingGroup(list),
+                  ),
+                );
+              default:
+                throw new Exception("not implemented");
+            }
+          },
+        ),
       ),
     );
   }
@@ -131,29 +138,32 @@ class _SettingScreenState extends State<SettingScreen> {
   }
 
   Widget _renderProfile(Profile item) {
-    return Row(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: CircleAvatar(
-            radius: 30,
-            backgroundImage: NetworkImage(fakeUserList[0].iconImage),
+    return Container(
+      decoration: new BoxDecoration(color: Colors.white),
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: CircleAvatar(
+              radius: 30,
+              backgroundImage: NetworkImage(fakeUserList[0].iconImage),
+            ),
           ),
-        ),
-        Expanded(
-          flex: 2,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Daryl SZE',
-                textAlign: TextAlign.start,
-              ),
-              Text('Do not afraid to try'),
-            ],
-          ),
-        )
-      ],
+          Expanded(
+            flex: 2,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Daryl SZE',
+                  textAlign: TextAlign.start,
+                ),
+                Text('Do not afraid to try'),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
