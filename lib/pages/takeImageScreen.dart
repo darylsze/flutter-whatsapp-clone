@@ -46,6 +46,31 @@ class TakeImageScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    height: 100,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 10,
+                        itemBuilder: (context, index) {
+                          final safeIndex =
+                              index + 1 > 5 ? index - 5 + 1 : index + 1;
+                          final imageName = 'images/$safeIndex.jpeg';
+                          return Card(
+                            child: new Container(
+                              height: 100,
+                              width: 100,
+                              decoration: new BoxDecoration(
+                                image: new DecorationImage(
+                                  image: new AssetImage(imageName),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            color: Colors.white,
+                          );
+                        }),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
