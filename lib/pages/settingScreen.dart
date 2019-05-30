@@ -116,12 +116,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 );
               case GroupedList:
                 final list = (item as GroupedList).items;
-                return Container(
-                  decoration: new BoxDecoration(color: Colors.white),
-                  child: Column(
-                    children: _renderSettingGroup(list),
-                  ),
-                );
+                return _renderSettingGroup(list);
               default:
                 throw new Exception("not implemented");
             }
@@ -131,8 +126,8 @@ class _SettingScreenState extends State<SettingScreen> {
     );
   }
 
-  List<Widget> _renderSettingGroup(List<GroupedListItem> items) {
-    return items
+  Widget _renderSettingGroup(List<GroupedListItem> items) {
+    final children = items
         .asMap()
         .map((index, item) {
           final isLast = index == items.length - 1;
@@ -140,11 +135,23 @@ class _SettingScreenState extends State<SettingScreen> {
         })
         .values
         .toList();
+    return Container(
+      decoration: groupDecoration,
+      child: Column(children: children),
+    );
   }
+
+  final groupDecoration = new BoxDecoration(
+    color: Colors.white,
+    border: new Border(
+      top: BorderSide(color: Colors.grey[300]),
+      bottom: BorderSide(color: Colors.grey[300]),
+    ),
+  );
 
   Widget _renderProfile(Profile item) {
     return Container(
-      decoration: new BoxDecoration(color: Colors.white),
+      decoration: groupDecoration,
       child: Row(
         children: <Widget>[
           Padding(

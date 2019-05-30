@@ -4,6 +4,7 @@ import 'package:whatsapp_clone/fixtures/fakeConversation.dart';
 import 'package:whatsapp_clone/fixtures/fakeUserList.dart';
 import 'package:whatsapp_clone/model/Chat.dart';
 import 'package:whatsapp_clone/model/User.dart';
+import 'package:whatsapp_clone/pages/takeImageScreen.dart';
 
 // TODO:
 // 1. voice message UI
@@ -70,7 +71,17 @@ class _ChatScreenState extends State<ChatScreen>
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Icon(Icons.photo_camera, color: Colors.grey),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TakeImageScreen(),
+                  ),
+                );
+              },
+              child: Icon(Icons.photo_camera, color: Colors.grey),
+            ),
             SizedBox(width: 13),
             Icon(Icons.phone, color: Colors.grey),
           ],
